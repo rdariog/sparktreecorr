@@ -26,15 +26,17 @@ def hpix_ring(min_sep, max_sep, nside, nest=False):
 
     return f
 
+
 def hpix_pairs(hpix_ring, cross=False):
     def f(i, p):
         for r in p:
             for e in hpix_ring(r.hpix):
-                if not cross and e < r.hpix: # AUTO pairs must be sorted, CROSS do not
-                    yield (Row(**{'hpix':e}), Row(**{'hpix':r.hpix}))
+                if not cross and e < r.hpix:  # AUTO pairs must be sorted, CROSS do not
+                    yield (Row(**{'hpix': e}), Row(**{'hpix': r.hpix}))
                 else:
-                    yield (Row(**{'hpix':r.hpix}), Row(**{'hpix':e}))
+                    yield (Row(**{'hpix': r.hpix}), Row(**{'hpix': e}))
     return f
+
 
 class NNCorrelation(treecorr.NNCorrelation):
     def __init__(self, config=None, **kwargs):
@@ -72,7 +74,7 @@ class NNCorrelation(treecorr.NNCorrelation):
 
             nn = treecorr.NNCorrelation(config)
 
-            if not cat2 and r[0][0] == r[0][1]: # Same pixel
+            if not cat2 and r[0][0] == r[0][1]:  # Same pixel
                 nn.process_auto(cat_a)
             else:
                 nn.process_cross(cat_a, cat_b)
